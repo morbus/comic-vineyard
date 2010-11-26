@@ -22,8 +22,9 @@ Comic Vineyard exists to address two of the most troubling aspects of
 tracking your comic book collection: getting all your data in, and getting
 better looking data out in a way you'd like.
 
-  http://www.comicvine.com/
-  http://www.disobey.com/d/code/comic_vineyard/
+  Comic Vine:             http://www.comicvine.com/
+  Comic Vineyard Online:  http://www.disobey.com/d/code/comic-vineyard/
+  Comic Vineyard Source:  https://github.com/morbus/comic-vineyard/
 
 
 CREATING YOUR LIST
@@ -87,7 +88,7 @@ There are two ways to run Comic Vineyard:
 
 The quickest approach is through the official web installation at:
 
-  http://www.disobey.com/d/code/comic_vineyard/
+  http://www.disobey.com/d/code/comic-vineyard/
 
 If you'd like to customize the display of your data with a new theme, or
 else tweak Comic Vineyard's code, you'll need your own installation with:
