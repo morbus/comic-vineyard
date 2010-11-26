@@ -54,7 +54,7 @@ foreach ($list_data->xpath("//tr") as $row) {
           }
         }
         else { // just a single number so fill it.
-          $collection[$volume_id]['issue numbers'][trim($issue_number_part)]['count'] += 1;
+          $collection[$volume_id]['issue numbers'][trim($issue_number_part)]['count']++;
         }
       }
     }
