@@ -10,6 +10,7 @@ BUGS AND TODOS
   * @todo Support themes/default.info to define field_lists they use?
   * @todo Turn the current argv list into named parameters.
   * @todo Offer option to collapse all singles into a single heading.
+  * @todo Include in the documentation a link to GitHub.
 
 
 VERSION 1.0, 2010-11-30
