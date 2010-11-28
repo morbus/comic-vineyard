@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /**
  * @file
@@ -261,7 +261,7 @@ function progress_surroundings($type) {
   $header .= '<div id="header">';
   $header .=   '<a href="http://www.comicvine.com/"><img id="logo" src="http://media.comicvine.com/media/vine/img/white/layout/logo.png" /></a>';
   $header .=   '<div id="header-statistics">&nbsp;<!-- nothing to see here yet. maybe one day it\'ll include a list of statistics? -->&nbsp;</div>';
-  $header .=   '<div id="header-explanation"><a href="http://www.disobey.com/d/code/comic_vineyard/">Comic Vineyard</a> allows you to track your comic book collection using <a href="http://www.comicvine.com/">Comic Vine</a>. <div style="float: right;">Comic Vineyard was created by <a href="http://www.comicvine.com/myvine/morbus/">Morbus Iff</a>.</div></div>';
+  $header .=   '<div id="header-explanation"><a href="http://www.disobey.com/d/code/comic-vineyard/">Comic Vineyard</a> allows you to track your comic book collection using <a href="http://www.comicvine.com/">Comic Vine</a>. <div style="float: right;">Comic Vineyard was created by <a href="http://www.comicvine.com/myvine/morbus/">Morbus Iff</a>.</div></div>';
   $header .= '</div>';
   $header .= '<div id="wrapper" class="clearfix progress">';
 

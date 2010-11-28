@@ -22,9 +22,9 @@ Comic Vineyard exists to address two of the most troubling aspects of
 tracking your comic book collection: getting all your data in, and getting
 better looking data out in a way you'd like.
 
-  Comic Vine:             http://www.comicvine.com/
-  Comic Vineyard Online:  http://www.disobey.com/d/code/comic-vineyard/
-  Comic Vineyard Source:  https://github.com/morbus/comic-vineyard/
+  Comic Vine:                 http://www.comicvine.com/
+  Comic Vineyard Online:      http://www.disobey.com/d/code/comic-vineyard/
+  Comic Vineyard source code: https://github.com/morbus/comic-vineyard/
 
 
 CREATING YOUR LIST
@@ -64,7 +64,7 @@ list simply by typing new issue numbers every Wednesday (and/or adding the
 occasional new volume).
 
 In addition to the issues you own, you can OPTIONALLY specify additional
-information in a "key: value" format, separated by semi-colons. These
+information in a "key: value" format separated by semi-colons. These
 additional key values are passed to the Comic Vineyard theme and may be
 used as part of the display. For example, to specify the five issues you
 own and their location, you'd use:

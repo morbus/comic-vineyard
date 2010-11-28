@@ -16,6 +16,7 @@ BUGS AND TODOS
   * @todo Rendering all themes all the time costs a lot less than downloading.
   * @todo Make another theme - Excel-like?
   * @todo The script is going to be very slow for large collections. Cache issue data?
+  * @todo Use lists/123456 in the README to make sure it never breaks?
 
 
 VERSION 1.1, 2010-12-06
