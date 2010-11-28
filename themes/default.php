@@ -10,6 +10,9 @@
     #header-statistics { background: #000; height: 70px; }
     #header-explanation { color: #fff; font-size: 11px; font-weight: bold; margin: 9px; }
     #header-explanation a { color: #fff; }
+    .clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+    * html .clearfix { height: 1%; } *:first-child + html .clearfix { min-height: 1%; }
+
     #collection { background: #fff; border-radius: 5px; clear: both; margin: auto; padding: 10px; width: 90%; }
     .volume { margin-bottom: 20px; }
     .volume-header { margin-bottom: 10px; }
@@ -19,9 +22,6 @@
     .issue img { border: 1px solid #e5ede5; padding: 2px; }
     .issue a { color: #093; text-decoration: none; }
     .issue-publication { color: #666; font-size: 11px; font-weight: normal; }
-
-    .clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
-    * html .clearfix { height: 1%; } *:first-child + html .clearfix { min-height: 1%; }
   </style>
 </head>
 <body>
@@ -35,12 +35,12 @@
 <div id="collection" class="clearfix">
 
 <?php
-  foreach ($collection as $volume_id => $volume) {
+  foreach ($data as $volume_id => $volume) {
     print '<div class="volume clearfix">';
     print   '<div class="volume-header">';
     print     '<h2>' . $volume['name'] . '</h2>';
     print     '<div class="volume-data">';
-    print       'Location: ' . $volume['location'];
+    print     isset($volume['location']) ? 'Location: ' . $volume['location'] : '';
     print     '</div>';
     print    '</div>';
 

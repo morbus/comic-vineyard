@@ -1,15 +1,22 @@
 
 BUGS AND TODOS
 --------------
-  * @bug "Location" is always displayed in default; make optional.
   * @bug Lowercase all comment key/values for ease of use in themes.
   * @bug Only handles the first 50 list entries; add paging support. 
+  * @bug We don't currently do any validation/sanitation of incoming data.
+  * @bug Revise docs to refer to command line arguments.
+  * @bug If a range is in the form of 7-5, we'll kabloeey.
   * @todo Write up the theme documentation.
   * @todo Get "variants" in the default themes.
   * @todo renders/morbus-default.html allows only one list per user.
   * @todo Support themes/default.info to define field_lists they use?
-  * @todo Turn the current argv list into named parameters.
   * @todo Offer option to collapse all singles into a single heading.
+  * @todo Create an index.html that contains the form purdiness.
+  * @todo Rendering all themes all the time costs a lot less than downloading.
+  * @todo Check notices for any remaining tweaks.
+  * @todo Make another theme - Excel-like?
+  * @todo Final output of script should link to the newly rendered.
+  * @todo Create a misc/ directly for 'default' CSS (and future jQ, etc.).
 
 
 VERSION 1.0, 2010-11-30
