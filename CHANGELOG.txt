@@ -7,7 +7,6 @@ BUGS AND TODOS
   * @bug Revise docs to refer to command line arguments.
   * @bug If a range is in the form of 7-5, we'll kabloeey.
   * @bug May/Summer types of issue numbers are unsupported.
-  * @todo Theme the Render button link the Comic Vine buttons.
   * @todo Write up the theme documentation.
   * @todo COMIC_VINE_API_KEY and Apache tweak for setup (or var at top?)
   * @todo Get "variants" in the default themes.
