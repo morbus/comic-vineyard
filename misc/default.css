@@ -1,0 +1,166 @@
+/**
+ * @file
+ * Default Comic Vineyard styles.
+ */
+
+body {
+  background: #ccc;
+  font: 12px sans-serif;
+  margin: 0;
+}
+
+#header {
+  background: #458C40;
+  height: 99px;
+}
+
+#header #logo {
+  float: left;
+}
+
+#header-statistics {
+  background: #000;
+  height: 70px;
+}
+
+#header-explanation {
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+  margin: 9px;
+}
+
+#header-explanation a {
+  color: #fff;
+}
+
+#wrapper {
+  background: #fff;
+  border-radius: 5px;
+  clear: both;
+  margin: auto;
+  padding: 10px;
+  width: 960px;
+}
+
+#wrapper a {
+  color: #093;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+#run-comic-vineyard {
+  margin: auto;
+  padding: 1em;
+  text-align: center;
+  width: 820px;
+}
+
+#run-comic-vineyard #url {
+  background: #fefefe;
+  border: 2px solid #9e9d9d;
+  border-radius: 5px;
+  color: #c00;
+  font-weight: bold;
+  margin: 2em 0;
+  padding: 0.4em;
+  width: 640px;
+
+  background: -moz-linear-gradient(top, #fefefe, #b6b6b6);
+  background: -webkit-gradient(linear, left top, left bottom, from(#fefefe), to(#b6b6b6));
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefefe', endColorstr='#b6b6b6');
+
+  box-shadow:0 0 5px white;
+  -moz-box-shadow: 0 0 5px white;
+  -webkit-box-shadow: 0 0 5px white;
+}
+
+#run-comic-vineyard .instructions {
+  font-size: 1.6em;
+}
+
+#help {
+  border-right: 1px solid #e5ede5;
+  border-top: 1px solid #e5ede5;
+  float: left;
+  padding: 1em;
+  width: 450px;
+}
+
+#updates {
+  border-top: 1px solid #e5ede5;
+  float: left;
+  padding: 1em;
+  width: 450px;
+}
+
+.collection {
+  width: 90% !important;
+}
+
+.volume {
+  margin-bottom: 20px;
+}
+
+.volume-header {
+  margin-bottom: 10px;
+}
+
+.volume-header h2 {
+  background: #e5ede5;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  margin: 0;
+  padding: 10px;
+}
+
+.volume-data {
+  background: #f3f3f3;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  margin-top: 0;
+  padding: 5px 10px;
+}
+
+.issue {
+  float: left;
+  font-weight: bold;
+  margin: 2px;
+  text-align: center;
+}
+
+.issue img {
+  border: 1px solid #e5ede5;
+  padding: 2px;
+}
+
+.issue a {
+  color: #093;
+  text-decoration: none;
+}
+
+.issue-publication {
+  color: #666;
+  font-size: 11px;
+  font-weight: normal;
+}
+
+.progress {
+  font-size: 14px;
+}
+
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+* html .clearfix {
+  height: 1%;
+}
+
+*:first-child + html .clearfix {
+  min-height: 1%;
+}
