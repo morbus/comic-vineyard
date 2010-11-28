@@ -94,7 +94,7 @@ foreach ($list_data->xpath("//tr") as $row) {
 /* ************************************************************************** */
 progress('<ul>'); // try to make it purdy.
 foreach ($collection as $volume_id => $volume) {
-  progress("<li><span class=\"message\">Fetching data for $volume[name] </span>"); // start the heartbeat.
+  progress("<li><span class=\"message\">Fetching data for $volume[name]...</span> "); // start the heartbeat.
   $volume_issues = http_request("http://api.comicvine.com/volume/$volume_id/?api_key=$api_key&field_list=issues&format=json", "json");
 
   foreach ($volume_issues->results->issues as $volume_issue) {
@@ -104,14 +104,14 @@ foreach ($collection as $volume_id => $volume) {
     if (!isset($issues_cache[$volume_issue->id])) {
       $issue_details = http_request("http://api.comicvine.com/issue/" . $volume_issue->id . "/?api_key=$api_key&field_list=issue_number&format=json", "json");
       $issues_cache[$volume_issue->id] = (int) $issue_details->results->issue_number; // just a simple lookup hash to convert ids to numbers. yawn.
-      progress('<span class="buffering">.</span> '); // heartbeat for long-lived volumes with lots of issues.
+      progress('<span class="heartbeat">.</span> '); // heartbeat for long-lived volumes with lots of issues.
       $new_cache_items = TRUE;
     }
 
     // if this issue is in our collection, fetch all.
     $issue_number = $issues_cache[$volume_issue->id];
     if (isset($collection[$volume_id]['issue numbers'][$issue_number])) {
-      progress('<span class="buffering">.</span> '); // heartbeat for long-lived collections with lots of issues.
+      progress('<span class="heartbeat">.</span> '); // heartbeat for long-lived collections with lots of issues.
       $issue_details = http_request("http://api.comicvine.com/issue/" . $volume_issue->id . "/?api_key=$api_key&field_list=$theme_fields&format=json", "json");
       $collection[$volume_id]['issue numbers'][$issue_number]['data'] = (array) $issue_details->results; // put the whole blasted thing in there.
 
@@ -284,7 +284,7 @@ function progress_surroundings($type) {
  *   The message you want displayed to the user.
  */
 function progress($message) {
-  print isset($_REQUEST['url']) ? $message : strip_tags($message);
+  print isset($_REQUEST['url']) ? $message : rtrim(strip_tags($message), " ");
 }
 
 /**
