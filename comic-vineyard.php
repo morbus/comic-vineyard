@@ -12,6 +12,7 @@
 
 require_once 'HTTP/Request2.php';
 date_default_timezone_set('GMT');
+set_time_limit(0); // FOREVEVRE!
 
 /* ************************************************************************** */
 /* Step 1: determine where we're being run and how, then setup progress bar.  */
@@ -34,7 +35,6 @@ else { // treat it like a command-line run.
 
 progress("<p>Comic Vineyard is now rendering your comic book collection. Be patient, bub.</p>\n\n");
 $theme_fields = 'issue_number,publish_year,publish_month,publish_day,image,site_detail_url';
-$user = preg_replace('!.*/myvine/(.*?)/.*!', '\1', $list_url);
 $issues_cache = cache_load('issues_cache.db');
 
 
@@ -130,8 +130,14 @@ if (isset($new_cache_items)) {
 /* ************************************************************************** */
 /* Step 4: our collection is full of data so we can print it as we'd like.    */
 /* ************************************************************************** */
-$output = theme_render($collection);
-file_put_contents("renders/$user-default.html", $output);
+$output   = theme_render($collection);
+$user     = preg_replace('!.*/myvine/(.*?)/.*!', '\1', $list_url);
+$list_id  = preg_replace("!.*/myvine/$user/.*?/75-(\d+)/?!", '\1', $list_url);
+$rendered_path = "renders/$user-$list_id-default.html";
+file_put_contents($rendered_path, $output);
+
+progress("\n<p>Your Comic Vineyard is complete!</p>\n");
+progress("  <ul><li><a href=\"$rendered_path\">$rendered_path</a></li></ul>\n");
 
 
 /* ************************************************************************** */
@@ -256,6 +262,7 @@ function progress_surroundings($type) {
   $header .=     '#header-explanation { color: #fff; font-size: 11px; font-weight: bold; margin: 9px; }';
   $header .=     '#header-explanation a { color: #fff; }';
   $header .=     '#progress { background: #fff; border-radius: 5px; clear: both; margin: auto; padding: 10px; width: 960px; }';
+  $header .=     '#progress a { color: #093; font-weight: bold; text-decoration: none; }';
   $header .=     '.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }';
   $header .=     '* html .clearfix { height: 1%; } *:first-child + html .clearfix { min-height: 1%; }';
   $header .=   '</style>';
