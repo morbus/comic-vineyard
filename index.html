@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>My Comic Vineyard</title>
+  <link rel="stylesheet" href="misc/default.css" type="text/css" />
+</head>
+<body>
+
+<div id="header">
+  <a href="http://www.comicvine.com/"><img id="logo" src="http://media.comicvine.com/media/vine/img/white/layout/logo.png" /></a>
+  <div id="header-statistics">&nbsp;<!-- nothing to see here yet. maybe one day it'll include a list of statistics? -->&nbsp;</div>
+  <div id="header-explanation"><a href="http://www.disobey.com/d/code/comic-vineyard/">Comic Vineyard</a> allows you to track your comic book collection using <a href="http://www.comicvine.com/">Comic Vine</a>. <div style="float: right;">Comic Vineyard was created by <a href="http://www.comicvine.com/myvine/morbus/">Morbus Iff</a>.</div></div>
+</div>
+
+<div id="wrapper" class="clearfix">
+  <div id="run-comic-vineyard">
+    <form action="comic-vineyard.php" method="post">
+      <input id="url" name="url" type="text" size="75" />
+      <input id="submit" name="submit" type="submit" value="Render" />
+    </form>
+
+    <div class="instructions">Use Comic Vine to index your comic book collection and Comic Vineyard to make it pretty.</div>
+    <p>For an example of the default theme, view <a href="renders/morbus-20545-default.html">Morbus' Comic Vineyard</a> as generated from <a href="http://www.comicvine.com/myvine/morbus/my-comic-vineyard-collection/75-20545/">his Comic Vine list</a>.</p>
+  </div>
+
+  <div id="help">
+    <p><strong>Comic Vineyard</strong> is a way of tracking your comic book collection using Comic Vine's functionality and data. You maintain your public collection of comics in a Comic Vine "list" and then use Comic Vineyard to take that data and turn it into a display of your choice. Comic Vineyard exists to <strong>address two of the most troubling aspects of tracking your comic book collection:</strong> getting all your data in, and getting better looking data out in a way you'd like.</p>
+
+    <h2>How to use Comic Vineyard</h2>
+    <ol>
+      <li>Login to Comic Vine and create a new list.</li>
+      <li>Search the site for your comic book volumes (not issues).</li>
+      <li>Add your comic book volumes to your new Comic Vine list.</li>
+      <li>In the volume's comments, indicate what issues you own.</li>
+      <li>Enter your Comic Vine list URL above and click "Render".</li>
+    </ol>
+
+    <p><a href="http://www.comicvine.com/myvine/morbus/my-comic-vineyard-collection/75-20545/">The easiest way to see how this works is with an actual list.</a></p>
+
+    <h2>Comment and issue formats</h2>
+    <p>The following comment formats are all acceptable:</p>
+    <blockquote><code>24-30<br />24, 25, 26, 27, 28, 29, 30<br />1-5,7,11-15, 13<br />17-143,176; location: 4; variants: 100C</code></blockquote>
+    <p>This approach was taken to speed data entry: with most comic book trackers, you must manually visit each issue's page before adding it to your collection. Using the above formatting, it's much faster to update the entire Comic Vine list simply by typing new issue numbers every Wednesday (and/or adding new volumes).</p>
+    <p>In addition to the issues you own, you can <strong>optionally</strong> specify additional information in a "key: value" format separated by semi-colons (the fourth example above). These additional key values are passed to the Comic Vineyard theme and may be used as part of the display. The following key values are "known" and in-use by themes (but, again, you can use any key values you want - themes will silently ignore ones it doesn't understand): <em>location</em>.</p>
+  </div>
+
+  <div id="updates">
+    <h2>Recent updates</h2>
+    <ul>
+      <li><strong>2010-11-29</strong>: Version 1.0 released.</li>
+      <li><strong>2010-11-24</strong>: <a href="http://www.comicvine.com/forums/gen-discussion/1/managing-your-comic-collection-with-comic-vine/585378/#20">Sneak peak at an alpha</a>.</li>
+    </ul>
+
+    <h2>Additional resources</h2>
+    <ul>
+      <li><a href="http://www.comicvine.com/">Comic Vine</a></li>
+      <li><a href="http://www.disobey.com/d/code/comic-vineyard/">Comic Vineyard Online</a></li>
+      <li><a href="https://github.com/morbus/comic-vineyard">Comic Vineyard source code</a></li>
+  </div>
+</div>
+
+</body>
+</html>
