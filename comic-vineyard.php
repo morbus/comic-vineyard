@@ -35,7 +35,7 @@ else { // treat it like a command-line run.
 
 progress("<p>Comic Vineyard is now rendering your comic book collection. Be patient, bub.</p>\n\n");
 $theme_fields = 'issue_number,publish_year,publish_month,publish_day,image,site_detail_url';
-$issues_cache = cache_load('issues_cache.db');
+$issue_numbers = cache_load('issue_numbers.db');
 
 
 /* ************************************************************************** */
@@ -101,15 +101,15 @@ foreach ($collection as $volume_id => $volume) {
     // the current Comic Vine API doesn't return the issue number in the
     // volume issues field list so we have to scan each one to find it.
     // we cache the values in a local file for faster reruns.
-    if (!isset($issues_cache[$volume_issue->id])) {
+    if (!isset($issue_numbers[$volume_issue->id])) {
       $issue_details = http_request("http://api.comicvine.com/issue/" . $volume_issue->id . "/?api_key=$api_key&field_list=issue_number&format=json", "json");
-      $issues_cache[$volume_issue->id] = (int) $issue_details->results->issue_number; // just a simple lookup hash to convert ids to numbers. yawn.
+      $issue_numbers[$volume_issue->id] = (int) $issue_details->results->issue_number; // just a simple lookup hash to convert ids to numbers. yawn.
       progress('<span class="heartbeat">.</span> '); // heartbeat for long-lived volumes with lots of issues.
       $new_cache_items = TRUE;
     }
 
     // if this issue is in our collection, fetch all.
-    $issue_number = $issues_cache[$volume_issue->id];
+    $issue_number = $issue_numbers[$volume_issue->id];
     if (isset($collection[$volume_id]['issue numbers'][$issue_number])) {
       progress('<span class="heartbeat">.</span> '); // heartbeat for long-lived collections with lots of issues.
       $issue_details = http_request("http://api.comicvine.com/issue/" . $volume_issue->id . "/?api_key=$api_key&field_list=$theme_fields&format=json", "json");
@@ -123,7 +123,7 @@ foreach ($collection as $volume_id => $volume) {
 } progress('</ul>');
 
 if (isset($new_cache_items)) {
-  cache_save($issues_cache, 'issues_cache.db');
+  cache_save($issue_numbers, 'issue_numbers.db');
 }
 
 
@@ -229,6 +229,7 @@ function cache_load($path) {
  *    A relative or absolute path to save the data to.
  */
 function cache_save($data, $path) {
+  $lines = NULL; // I SHALL SPIT YOU.
   foreach ($data as $key => $value) {
     $lines .= "$key,$value\n";
   }
@@ -254,18 +255,7 @@ function progress_surroundings($type) {
   $header .= '<head>';
   $header .=   '<meta charset="utf-8" />';
   $header .=   '<title>My Comic Vineyard</title>';
-  $header .=   '<style type="text/css">';
-  $header .=     'body { background: #ccc; font: 14px sans-serif; margin: 0; }';
-  $header .=     '#header { background: #458C40; height: 99px; }';
-  $header .=     '#header #logo { float: left; }';
-  $header .=     '#header-statistics { background: #000; height: 70px; }';
-  $header .=     '#header-explanation { color: #fff; font-size: 11px; font-weight: bold; margin: 9px; }';
-  $header .=     '#header-explanation a { color: #fff; }';
-  $header .=     '#progress { background: #fff; border-radius: 5px; clear: both; margin: auto; padding: 10px; width: 960px; }';
-  $header .=     '#progress a { color: #093; font-weight: bold; text-decoration: none; }';
-  $header .=     '.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }';
-  $header .=     '* html .clearfix { height: 1%; } *:first-child + html .clearfix { min-height: 1%; }';
-  $header .=   '</style>';
+  $header .=   '<link rel="stylesheet" href="misc/default.css" type="text/css" />';
   $header .= '</head>';
   $header .= '<body>';
   $header .= '<div id="header">';
@@ -273,7 +263,7 @@ function progress_surroundings($type) {
   $header .=   '<div id="header-statistics">&nbsp;<!-- nothing to see here yet. maybe one day it\'ll include a list of statistics? -->&nbsp;</div>';
   $header .=   '<div id="header-explanation"><a href="http://www.disobey.com/d/code/comic_vineyard/">Comic Vineyard</a> allows you to track your comic book collection using <a href="http://www.comicvine.com/">Comic Vine</a>. <div style="float: right;">Comic Vineyard was created by <a href="http://www.comicvine.com/myvine/morbus/">Morbus Iff</a>.</div></div>';
   $header .= '</div>';
-  $header .= '<div id="progress" class="clearfix">';
+  $header .= '<div id="wrapper" class="clearfix progress">';
 
   $footer =  '</div>';
   $footer .= '</body>';

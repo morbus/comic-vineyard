@@ -6,6 +6,7 @@ BUGS AND TODOS
   * @bug We don't currently do any validation/sanitation of incoming data.
   * @bug Revise docs to refer to command line arguments.
   * @bug If a range is in the form of 7-5, we'll kabloeey.
+  * @bug May/Summer types of issue numbers are unsupported.
   * @todo Create an index.html that contains the form purdiness.
   * @todo Write up the theme documentation.
   * @todo COMIC_VINE_API_KEY and Apache tweak for setup (or var at top?)
@@ -14,11 +15,12 @@ BUGS AND TODOS
   * @todo Offer option to collapse all singles into a single heading.
   * @todo Rendering all themes all the time costs a lot less than downloading.
   * @todo Make another theme - Excel-like?
-  * @todo Create a misc/ directly for 'default' CSS (and future jQ, etc.).
-  * @todo Check notices for any remaining tweaks.
   * @todo The script is going to be very slow for large collections. Cache issue data?
 
 
-VERSION 1.0, 2010-11-30
+VERSION 1.1, 2010-12-06
+-----------------------
+
+VERSION 1.0, 2010-11-29
 -----------------------
   * Initial public release.

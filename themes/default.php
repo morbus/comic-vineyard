@@ -3,26 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <title>My Comic Vineyard</title>
-  <style type="text/css">
-    body { background: #ccc; font: 12px sans-serif; margin: 0; }
-    #header { background: #458C40; height: 99px; }
-    #header #logo { float: left; }
-    #header-statistics { background: #000; height: 70px; }
-    #header-explanation { color: #fff; font-size: 11px; font-weight: bold; margin: 9px; }
-    #header-explanation a { color: #fff; }
-    .clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
-    * html .clearfix { height: 1%; } *:first-child + html .clearfix { min-height: 1%; }
-
-    #collection { background: #fff; border-radius: 5px; clear: both; margin: auto; padding: 10px; width: 90%; }
-    .volume { margin-bottom: 20px; }
-    .volume-header { margin-bottom: 10px; }
-    .volume-header h2 { background: #e5ede5; border-top-left-radius: 5px; border-top-right-radius: 5px; margin: 0; padding: 10px; }
-    .volume-data { background: #f3f3f3; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; margin-top: 0; padding: 5px 10px; }
-    .issue { float: left; font-weight: bold; margin: 2px; text-align: center; }
-    .issue img { border: 1px solid #e5ede5; padding: 2px; }
-    .issue a { color: #093; text-decoration: none; }
-    .issue-publication { color: #666; font-size: 11px; font-weight: normal; }
-  </style>
+  <link rel="stylesheet" href="../misc/default.css" type="text/css" />
 </head>
 <body>
 
@@ -32,7 +13,7 @@
   <div id="header-explanation"><a href="http://www.disobey.com/d/code/comic_vineyard/">Comic Vineyard</a> allows you to track your comic book collection using <a href="http://www.comicvine.com/">Comic Vine</a>. <div style="float: right;">Comic Vineyard was created by <a href="http://www.comicvine.com/myvine/morbus/">Morbus Iff</a>.</div></div>
 </div>
 
-<div id="collection" class="clearfix">
+<div id="wrapper" class="clearfix collection">
 
 <?php
   foreach ($data as $volume_id => $volume) {
