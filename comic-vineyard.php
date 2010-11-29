@@ -35,7 +35,7 @@ else { // treat it like a command-line run.
 
 progress("<p>Comic Vineyard is now rendering your comic book collection. Be patient, bub.</p>\n\n");
 $theme_fields = 'issue_number,publish_year,publish_month,publish_day,image,site_detail_url';
-$issue_numbers = cache_load('issue_numbers.db');
+$issue_numbers = cache_load('issue-numbers.db');
 
 
 /* ************************************************************************** */
@@ -123,7 +123,7 @@ foreach ($collection as $volume_id => $volume) {
 } progress('</ul>');
 
 if (isset($new_cache_items)) {
-  cache_save($issue_numbers, 'issue_numbers.db');
+  cache_save($issue_numbers, 'issue-numbers.db');
 }
 
 
