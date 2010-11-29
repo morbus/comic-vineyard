@@ -35,7 +35,7 @@ a new "list". This list will contain all the comic book volumes you own,
 and each volume's "comment" will indicate all the issues you own of that
 volume. The easiest way to see how this works is with an example:
 
-  http://www.comicvine.com/myvine/morbus/my-comic-vineyard-collection/75-20545/
+  http://www.comicvine.com/lists/75-20545/
 
 To add an item to your list, find the comic book volume on the site. The
 "volume" is the master page of all the issues, NOT an issue itself. For

@@ -15,7 +15,6 @@ BUGS AND TODOS
   * @todo Rendering all themes all the time costs a lot less than downloading.
   * @todo Make another theme - Excel-like?
   * @todo The script is going to be very slow for large collections. Cache issue data?
-  * @todo Use lists/123456 in the README to make sure it never breaks?
   * @todo Render links should popup a new window to prevent Back button reruns.
   * @todo Add a "group: Batman" key/value to force group issues into headings?
 
