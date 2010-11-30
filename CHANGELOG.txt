@@ -17,6 +17,10 @@ BUGS AND TODOS
   * @todo The script is going to be very slow for large collections. Cache issue data?
   * @todo Render links should popup a new window to prevent Back button reruns.
   * @todo Add a "group: Batman" key/value to force group issues into headings?
+  * @todo Look into supporting issues within a list.
+  * @todo Render "Count: 2" underneath the date or etc.
+  * @todo Look into support 19 (2) as a count metric.
+  * @todo Support multiple lists for one giant render.
 
 
 VERSION 1.1, 2010-12-06
