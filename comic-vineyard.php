@@ -64,6 +64,12 @@ foreach ($list_data->xpath("//tr") as $row) {
         // if it's a range, find the min/max and fill.
         if (strpos($issue_number_part, '-') !== FALSE) {
           preg_match("/(\d+)\s*-\s*(\d+)/", $issue_number_part, $matches);
+          // sanity check. if the second number is LOWER than the first number,
+          // someone has done a "8-3" type of range, and we need to swap values.
+          if ($matches[2] < $matches[1]) { // damn fools makin' infinite loops!
+            list($matches[1], $matches[2]) = array($matches[2], $matches[1]);
+          }
+
           for ($matches[1]; $matches[1] <= $matches[2]; $matches[1]++) {
             if (!isset($collection[$volume_id]['issue numbers'][$matches[1]])) {
               $collection[$volume_id]['issue numbers'][$matches[1]] = array('count' => 0);
@@ -83,7 +89,7 @@ foreach ($list_data->xpath("//tr") as $row) {
     }
     // otherwise, it's a normal set of key:value pairs.
     elseif (isset($key_values[0]) && isset($key_values[1])) {
-      $collection[$volume_id][trim($key_values[0])] = trim($key_values[1]);
+      $collection[$volume_id][strtolower(trim($key_values[0]))] = trim($key_values[1]);
     }
   }
 }

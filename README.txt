@@ -3,8 +3,8 @@ CONTENTS OF THIS FILE
 ---------------------
 
  * Introduction
- * Creating your List
- * Installation and Usage
+ * How to use Comic Vineyard
+ * Installing your own Comic Vineyard
  * Creating Your Own Themes
 
 
@@ -27,59 +27,45 @@ better looking data out in a way you'd like.
   Comic Vineyard source code: https://github.com/morbus/comic-vineyard/
 
 
-CREATING YOUR LIST
-------------------
+HOW TO USE COMIC VINEYARD
+-------------------------
 
-The first step to using Comic Vineyard is to login to Comic Vine and create
-a new "list". This list will contain all the comic book volumes you own,
-and each volume's "comment" will indicate all the issues you own of that
-volume. The easiest way to see how this works is with an example:
+  1. Login to Comic Vine and create a new list.
+  2. Search the site for your comic book volumes (not issues).
+  3. Add your comic book volumes to your Comic Vine list.
+  4. In the volume's comments, indicate the issues you own (see below).
+  5. Enter your Comic Vine list URL into Comic Vineyard and "render" it.
+  6. Changed your Comic Vine list? "Render" it again with Comic Vineyard.
+
+The easiest way to see how this works is with an actual list:
 
   http://www.comicvine.com/lists/75-20545/
 
-To add an item to your list, find the comic book volume on the site. The
-"volume" is the master page of all the issues, NOT an issue itself. For
-example, if you own a bunch of Batman issues, you'd go to:
-
-  http://www.comicvine.com/batman/49-796/
-
-At the top of the screen, you'll see a green button that says "Add to a list".
-When you click to add it to your new list, you'll be given a chance to set
-an optional note - this is where you define what issues of the comic book you
-have. The following formats are all acceptable:
+The following comment and issue formats are acceptable:
 
   24-30
   24, 25, 26, 27, 28, 29, 30
   1-5,7,11-15, 13
+  17-143,176; location: 4; variants: 100C
 
-The first is a range of issues (from issue #24 to issue #30), the second is
-a longer way to say the same thing, and the third uses both formats (which
-also indicates that you own two issue #13s, one specified in the range, and
-one specified individually).
-
-This approach was taken to speed data entry: with most comic book trackers,
-you must manually visit each issue's page before adding it to your collection.
-Using the above formatting, it's much faster to update the entire Comic Vine
-list simply by typing new issue numbers every Wednesday (and/or adding the
-occasional new volume).
+This approach was taken to speed data entry: with most comic book
+trackers, you must manually visit each issue's "page" before adding it to
+your collection. Using the above formatting, it's much faster to update
+the entire Comic Vine list simply by typing new issue numbers every Wednesday
+(and/or adding new volumes).
 
 In addition to the issues you own, you can OPTIONALLY specify additional
-information in a "key: value" format separated by semi-colons. These
-additional key values are passed to the Comic Vineyard theme and may be
-used as part of the display. For example, to specify the five issues you
-own and their location, you'd use:
-
-  1,4,5-7; location: box 3
-
-The following key values are "known" and in-use by themes (but, again,
-you can use any key values you want - themes will silently ignore ones
-it doesn't understand):
+information in a "key: value" format separated by semi-colons (the fourth
+example above). These additional key values are passed to the Comic Vineyard
+theme and may be used as part of the display. The following key values are
+"known" and in-use by themes (but, again, you can use any key values you want -
+themes will silently ignore ones it doesn't understand):
 
   location
 
 
-INSTALLATION AND USAGE
-----------------------
+INSTALLING YOUR OWN COMIC VINEYARD
+----------------------------------
 
 There are two ways to run Comic Vineyard:
 
@@ -99,12 +85,24 @@ else tweak Comic Vineyard's code, you'll need your own installation with:
 
 To run Comic Vineyard from the command line, use:
 
-  php comicvineyard.php [your-api-key] [your-collection-url] [theme]
+  php comicvineyard.php 
+    --api_key [your-api-key]
+    --url [your-collection-url]
 
-The final result will be saved in the renders/ subdirectory.
+If you want to run Comic Vineyard through your web site, you'll need to find
+some way to pass your Comic Vine API key to the script in a secure manner. You
+can either manually force the API key in the source file, or you can set it
+in the Apache web server like so:
+
+  1. Create an .htaccess file in the root of the Comic Vineyard install.
+  2. Add "SetEnv COMIC_VINE_API_KEY [your-api-key]" to it and save.
+
+Whether this will work with your particular Apache installation is a matter
+too variable for a README.txt, but don't hesitate to email morbus@disobey.com
+and I'll try to help out where I can.
 
 
 CREATING YOUR OWN THEMES
 ------------------------
 
-@todo
+@todo Themes are still being solidified.
