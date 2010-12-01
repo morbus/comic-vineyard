@@ -69,7 +69,7 @@ button {
   clear: both;
   margin: auto;
   padding: 10px;
-  width: 960px;
+  width: 90%;
 }
 
 #wrapper a {
@@ -113,18 +113,14 @@ button {
   border-top: 1px solid #e5ede5;
   float: left;
   padding: 1em;
-  width: 450px;
+  width: 47%;
 }
 
 #updates {
   border-top: 1px solid #e5ede5;
   float: left;
   padding: 1em;
-  width: 450px;
-}
-
-.collection {
-  width: 90% !important;
+  width: 47%;
 }
 
 .volume {

@@ -1,31 +1,43 @@
 
 BUGS AND TODOS
 --------------
-  * @bug Only handles the first 50 list entries; add paging support. 
+  * @bug $list_url/theme render will break when we accept multiple URLs.
+  * @todo Support multiple lists for one giant render.
   * @bug We don't currently do any validation/sanitation of incoming data.
   * @bug May/Summer types of issue numbers are unsupported.
   * @todo Write up the theme documentation.
   * @todo Get "variants" in the default themes.
-  * @todo Support themes/default.info to define field_lists they use?
   * @todo Offer option to collapse all singles into a single heading.
   * @todo Rendering all themes all the time costs a lot less than downloading.
-  * @todo Make another theme - Excel-like?
   * @todo The script is going to be very slow for large collections. Cache issue data?
-  * @todo Render links should popup a new window to prevent Back button reruns.
   * @todo Add a "group: Batman" key/value to force group issues into headings?
   * @todo Look into supporting issues within a list.
   * @todo Render "Count: 2" underneath the date or etc.
   * @todo Look into support 19 (2) as a count metric.
-  * @todo Support multiple lists for one giant render.
+  * @todo Add link back to CV list on the default template. And timestamp generated?
+  * @todo Include any "volume 2" and "year started" information in volume header?
+  * @todo See if we can detect trades and their collected IDs and merge into one.
+  * @todo Argument should be called "urls", but command line needs smarter.
+  * @todo Add popup/overlay of cover and deck to any additional themes?
+  * @todo Render links should popup a new window to prevent Back button reruns.
+  * @todo Theme idea: character tag cloud.
+  * @todo Theme idea: Comic Vine list, only with all issues linked (and overlay).
+  * @todo Theme idea: Excel-like spreadsheet, sortable, with overlays, etc.
 
 
 VERSION 1.1, 2010-12-06
 -----------------------
-  * Bugfix: A range of "24-13" is now internally corrected to "13-24".
-  * Bugfix: Comment keys are always lowercased ("Location" vs "location").
+  * If a list has multiple pages, we now grab and render all of 'em.
   * Synchronized the docs between README.txt and index.html.
   * Corrected README.txt documentation for command line usage.
   * Added notes to README.txt about running it through Apache.
+  * All HTML pages are now fluid width instead of duping Comic Vine's fixed.
+  * Bugfix: We now verify that the submitted URL looks like a Comic Vine list.
+  * Bugfix: If our collection is empty after parsing, we exit with an error.
+  * Bugfix: A range of "24-13" is now internally corrected to "13-24".
+  * Bugfix: Comment keys are always lowercased ("Location" vs "location").
+  * Bugfix: Submitted URLs are now trimmed of any whitespace.
+  * Bugfix: Fixed bad render filename if ?page=1 was in the URL.
 
 
 VERSION 1.0, 2010-11-29

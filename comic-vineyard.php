@@ -33,74 +33,103 @@ else { // treat it like a command-line run.
   }
 }
 
-progress("<p>Comic Vineyard is now rendering your comic book collection. Be patient, bub.</p>\n\n");
+progress("<p>Comic Vineyard is now rendering your comic book collection. Be patient, bub.</p>\n");
 $theme_fields = 'issue_number,publish_year,publish_month,publish_day,image,site_detail_url';
 $issue_numbers = cache_load('issue-numbers.db');
 
+// @todo prep for multiURLs.
+$list_urls = array($list_url);
 
 /* ************************************************************************** */
 /* Step 2: get our collection of volumes, and parse the comments for issues.  */
 /* ************************************************************************** */
-$list_data = http_request($list_url);
-foreach ($list_data->xpath("//tr") as $row) {
-  $volume_id = preg_replace("!/.*?/\d*-(\d*)/!", "$1", $row->td[1]->a["href"]);
-  $collection[$volume_id]['name'] = preg_replace("!^\d+\. (.*?)!", "$1", $row->td[1]->a);
-  $collection[$volume_id]['unparsed'] = (string) $row->td[1]->p;
-  $collection[$volume_id]['issue numbers'] = array();
+progress("<ul>\n"); // make it purdy.
+foreach ($list_urls as $list_url) {
+  if (!preg_match('!http://(www.)?comicvine.com/myvine/(.*?)/(.*?)/75-(\d+)!', $list_url)) {
+    print "[ERROR] $list_url is not a list.\n"; // NOT ONE OF US. NOT ONE OF US. NOT ONE OF...
+    continue; // at least, not one we've ever seen ...US. NOT ONE OF US. NOT ONE OF US. NOT...
+  }
 
-  // try to parse out the comments into something logical, in
-  // the form of "1,2,4-10; location: box 1" (; and : delimiters).
-  $comment_parts = explode(";", $collection[$volume_id]['unparsed']);
-  foreach ($comment_parts as $comment_part) {
-    $key_values = explode(":", $comment_part);
+  // take off existing ?page params and force a start on page 1.
+  $list_url = preg_replace('/\?page=(.*)/', '', trim($list_url));
+  progress("<li><span class=\"message\">Fetching list data from $list_url...</span> ");
+  $list_url .= "?page=1"; // pretty ugly looking code in the nearby 10 or so lines.
+  $total_pages = 1; // lists always have at least 1 total pages.
 
-    // if we have an unlabeled comment part, we treat it as
-    // a list of issue numbers which must be further parsed.
-    if (isset($key_values[0]) && !isset($key_values[1])) {
-      $issue_number_parts = explode(",", $key_values[0]);
-      foreach ($issue_number_parts as $issue_number_part) {
-        $issue_number_part = trim($issue_number_part);
+  // load up every page of the list.
+  for ($i = 1; $i <= $total_pages; $i++) {
+    $list_url = preg_replace('!\?page=(\d+)!', "?page=$i", $list_url);
+    progress('<span class="heartbeat">.</span> '); // BADUMP. BADUMP. BADUMP.
+    $list_data = http_request($list_url); // IM IN YER HTTP GITTING YER DATA.
+    $pages_xml = $list_data->xpath("//li[@class='results']"); // divide bah 50, foo.
+    $total_pages = floor(str_replace(' results', '', $pages_xml[0]) / 50 + 1);
 
-        // if it's a range, find the min/max and fill.
-        if (strpos($issue_number_part, '-') !== FALSE) {
-          preg_match("/(\d+)\s*-\s*(\d+)/", $issue_number_part, $matches);
-          // sanity check. if the second number is LOWER than the first number,
-          // someone has done a "8-3" type of range, and we need to swap values.
-          if ($matches[2] < $matches[1]) { // damn fools makin' infinite loops!
-            list($matches[1], $matches[2]) = array($matches[2], $matches[1]);
-          }
-
-          for ($matches[1]; $matches[1] <= $matches[2]; $matches[1]++) {
-            if (!isset($collection[$volume_id]['issue numbers'][$matches[1]])) {
-              $collection[$volume_id]['issue numbers'][$matches[1]] = array('count' => 0);
+    // for every item in this list...
+    foreach ($list_data->xpath("//tr") as $row) {
+      $volume_id = preg_replace("!/.*?/\d*-(\d*)/!", "$1", $row->td[1]->a["href"]);
+      $collection[$volume_id]['name'] = preg_replace("!^\d+\. (.*?)!", "$1", $row->td[1]->a);
+      $collection[$volume_id]['unparsed'] = (string) $row->td[1]->p;
+      $collection[$volume_id]['issue numbers'] = array();
+    
+      // try to parse out the comments into something logical, in
+      // the form of "1,2,4-10; location: box 1" (; and : delimiters).
+      $comment_parts = explode(";", $collection[$volume_id]['unparsed']);
+      foreach ($comment_parts as $comment_part) {
+        $key_values = explode(":", $comment_part);
+    
+        // if we have an unlabeled comment part, we treat it as
+        // a list of issue numbers which must be further parsed.
+        if (isset($key_values[0]) && !isset($key_values[1])) {
+          $issue_number_parts = explode(",", $key_values[0]);
+          foreach ($issue_number_parts as $issue_number_part) {
+            $issue_number_part = trim($issue_number_part);
+    
+            // if it's a range, find the min/max and fill.
+            if (strpos($issue_number_part, '-') !== FALSE) {
+              preg_match("/(\d+)\s*-\s*(\d+)/", $issue_number_part, $matches);
+              // sanity check. if the second number is LOWER than the first number,
+              // someone has done a "8-3" type of range, and we need to swap values.
+              if ($matches[2] < $matches[1]) { // damn fools makin' infinite loops!
+                list($matches[1], $matches[2]) = array($matches[2], $matches[1]);
+              }
+    
+              for ($matches[1]; $matches[1] <= $matches[2]; $matches[1]++) {
+                if (!isset($collection[$volume_id]['issue numbers'][$matches[1]])) {
+                  $collection[$volume_id]['issue numbers'][$matches[1]] = array('count' => 0);
+                }
+    
+                $collection[$volume_id]['issue numbers'][$matches[1]]['count']++;
+              }
             }
-
-            $collection[$volume_id]['issue numbers'][$matches[1]]['count']++;
+            else { // just a single number so fill it.
+              if (!isset($collection[$volume_id]['issue numbers'][$issue_number_part])) {
+                $collection[$volume_id]['issue numbers'][$issue_number_part] = array('count' => 0);
+              }
+    
+              $collection[$volume_id]['issue numbers'][$issue_number_part]['count']++;
+            }
           }
         }
-        else { // just a single number so fill it.
-          if (!isset($collection[$volume_id]['issue numbers'][$issue_number_part])) {
-            $collection[$volume_id]['issue numbers'][$issue_number_part] = array('count' => 0);
-          }
-
-          $collection[$volume_id]['issue numbers'][$issue_number_part]['count']++;
+        // otherwise, it's a normal set of key:value pairs.
+        elseif (isset($key_values[0]) && isset($key_values[1])) {
+          $collection[$volume_id][strtolower(trim($key_values[0]))] = trim($key_values[1]);
         }
       }
     }
-    // otherwise, it's a normal set of key:value pairs.
-    elseif (isset($key_values[0]) && isset($key_values[1])) {
-      $collection[$volume_id][strtolower(trim($key_values[0]))] = trim($key_values[1]);
-    }
-  }
-}
+  } progress("</li>\n");
+} progress("</ul>");
 
+if (!isset($collection)) { // after all these URLs, I got nothing? How depressing.
+  print "[ERROR] Comic Vineyard was unable to find a collection at any the submitted URLs.\n";
+  exit; // FOR YOU, NOT ME. I AM TEH ALL POWERFUL SCRIPT PUNY HUMAN YOU ARE BAG OF MOSTLY WATER.
+}
 
 /* ************************************************************************** */
 /* Step 3: from our collected volumes, load up information about the issues.  */
 /* ************************************************************************** */
-progress('<ul>'); // try to make it purdy.
+progress("<ul>\n"); // make it purdy.
 foreach ($collection as $volume_id => $volume) {
-  progress("<li><span class=\"message\">Fetching data for $volume[name]...</span> "); // start the heartbeat.
+  progress("<li><span class=\"message\">Fetching issue data for $volume[name]...</span> "); // start the heartbeat.
   $volume_issues = http_request("http://api.comicvine.com/volume/$volume_id/?api_key=$api_key&field_list=issues&format=json", "json");
 
   foreach ($volume_issues->results->issues as $volume_issue) {
@@ -124,9 +153,8 @@ foreach ($collection as $volume_id => $volume) {
       // massage some of the data to get it into a more "print and go" form.
       $collection[$volume_id]['issue numbers'][$issue_number]['data']['issue_number'] = (int) $collection[$volume_id]['issue numbers'][$issue_number]['data']['issue_number'];
     }
-  }
-  progress("</li>\n");
-} progress('</ul>');
+  } progress("</li>\n");
+} progress("</ul>");
 
 if (isset($new_cache_items)) {
   cache_save($issue_numbers, 'issue-numbers.db');
@@ -138,7 +166,7 @@ if (isset($new_cache_items)) {
 /* ************************************************************************** */
 $output   = theme_render($collection);
 $user     = preg_replace('!.*/myvine/(.*?)/.*!', '\1', $list_url);
-$list_id  = preg_replace("!.*/myvine/$user/.*?/75-(\d+)/?!", '\1', $list_url);
+$list_id  = preg_replace("!.*/myvine/$user/.*?/75-(\d+).*!", '\1', $list_url);
 $rendered_path = "renders/$user-$list_id-default.html";
 file_put_contents($rendered_path, $output);
 
@@ -192,13 +220,13 @@ function http_request($url, $type = 'xml') {
       }
     }
     else {
-      print "Error [$url]: " . $response->getStatus()
+      print "[ERROR] $url: " . $response->getStatus()
         . ' ' . $response->getReasonPhrase() . "\n";
       return NULL;
     }
   }
   catch (HTTP_Request2_Exception $e) {
-    print "Error [$url]: " . $e->getMessage() . "\n";
+    print "[ERROR] $url: " . $e->getMessage() . "\n";
     return NULL;
   }
 }
