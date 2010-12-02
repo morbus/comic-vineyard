@@ -23,6 +23,8 @@ BUGS AND TODOS
   * @todo Look into existing render failures and write errors for each of em.
   * @todo If only processing one URL, put collection title into render?
   * @todo Provide an option to alphabetize the volume titles internally.
+  * @todo The provided render needs to be updated to multiple lists.
+  * @todo Comic Vine's API does weird things with 0 issues. See 37-38523.
 
 
 VERSION 1.1, 2010-12-06
@@ -33,6 +35,9 @@ VERSION 1.1, 2010-12-06
   * Corrected README.txt documentation for command line usage.
   * Added notes to README.txt about running it through Apache.
   * All HTML pages are now fluid width instead of duping Comic Vine's fixed.
+  * Support "17 (4)" and "17(4)" as a way to indicate 4 owned copies of 17.
+  * Comment parser is a bit looser in parsing issue numbers from chaos.
+  * Display an error if we can find no issue numbers in your comment.
   * Bugfix: We now verify that the submitted URL looks like a Comic Vine list.
   * Bugfix: If our collection is empty after parsing, we exit with an error.
   * Bugfix: A range of "24-13" is now internally corrected to "13-24".

@@ -46,7 +46,8 @@ The following comment and issue formats are acceptable:
   24-30
   24, 25, 26, 27, 28, 29, 30
   1-5,7,11-15, 13
-  17-143,176; location: 4; variants: 100C
+  17-143,176; location: 4
+  99, 100 (3), 101-104; variants: 101C
 
 This approach was taken to speed data entry: with most comic book
 trackers, you must manually visit each issue's "page" before adding it to

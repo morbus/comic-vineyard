@@ -71,21 +71,23 @@ foreach ($list_urls as $list_url) {
       $collection[$volume_id]['name'] = preg_replace("!^\d+\. (.*?)!", "$1", $row->td[1]->a);
       $collection[$volume_id]['unparsed'] = (string) $row->td[1]->p;
       $collection[$volume_id]['issue numbers'] = array();
-    
+      $found_issue_numbers = array(); // transient.
+
       // try to parse out the comments into something logical, in
       // the form of "1,2,4-10; location: box 1" (; and : delimiters).
-      $comment_parts = explode(";", $collection[$volume_id]['unparsed']);
+      // array_filter() will remove any empty bits of the array.
+      $comment_parts = array_filter(explode(";", $collection[$volume_id]['unparsed']));
       foreach ($comment_parts as $comment_part) {
         $key_values = explode(":", $comment_part);
-    
+
         // if we have an unlabeled comment part, we treat it as
         // a list of issue numbers which must be further parsed.
         if (isset($key_values[0]) && !isset($key_values[1])) {
           $issue_number_parts = explode(",", $key_values[0]);
           foreach ($issue_number_parts as $issue_number_part) {
             $issue_number_part = trim($issue_number_part);
-    
-            // if it's a range, find the min/max and fill.
+
+            // ISSUE RANGE ex.: [ 1-3, 4-1, 1 - 24 ]
             if (strpos($issue_number_part, '-') !== FALSE) {
               preg_match("/(\d+)\s*-\s*(\d+)/", $issue_number_part, $matches);
               // sanity check. if the second number is LOWER than the first number,
@@ -93,21 +95,20 @@ foreach ($list_urls as $list_url) {
               if ($matches[2] < $matches[1]) { // damn fools makin' infinite loops!
                 list($matches[1], $matches[2]) = array($matches[2], $matches[1]);
               }
-    
+
               for ($matches[1]; $matches[1] <= $matches[2]; $matches[1]++) {
-                if (!isset($collection[$volume_id]['issue numbers'][$matches[1]])) {
-                  $collection[$volume_id]['issue numbers'][$matches[1]] = array('count' => 0);
-                }
-    
-                $collection[$volume_id]['issue numbers'][$matches[1]]['count']++;
+                $found_issue_numbers[$matches[1]]++;
               }
             }
-            else { // just a single number so fill it.
-              if (!isset($collection[$volume_id]['issue numbers'][$issue_number_part])) {
-                $collection[$volume_id]['issue numbers'][$issue_number_part] = array('count' => 0);
-              }
-    
-              $collection[$volume_id]['issue numbers'][$issue_number_part]['count']++;
+
+            // ISSUE WITH COUNT ex.: [ 24(2), 100 (5) ]
+            elseif (preg_match('/(\d+) ?(\(\d+\))/', $issue_number_part, $matches)) {
+              $found_issue_numbers[$matches[1]] += trim($matches[2], '( )');
+            }
+
+            // SINGLE ISSUE ex.: erm. really? sigh: [ 4 ]
+            elseif (preg_match('/(\d+)/', $issue_number_part, $matches)) {
+              $found_issue_numbers[$matches[1]]++;
             }
           }
         }
@@ -115,6 +116,16 @@ foreach ($list_urls as $list_url) {
         elseif (isset($key_values[0]) && isset($key_values[1])) {
           $collection[$volume_id][strtolower(trim($key_values[0]))] = trim($key_values[1]);
         }
+      }
+
+      // move all our found issues into our master collection.
+      foreach ($found_issue_numbers as $found_issue_number => $count) {
+        $collection[$volume_id]['issue numbers'][$found_issue_number] = array('count' => $count);
+      }
+
+      // if we've found no issues, we should complain a bit.
+      if (count($collection[$volume_id]['issue numbers']) == 0) {
+        progress("<br />[ERROR] Comic Vineyard doesn't think you specified any issues for " . $collection[$volume_id]['name'] . ".\n");
       }
     }
   } progress("</li>\n");
@@ -223,8 +234,9 @@ function http_request($url, $type = 'xml') {
       }
     }
     else {
-      progress("<br />[ERROR] $url: " . $response->getStatus()
-        . ' ' . $response->getReasonPhrase() . "\n");
+      progress("<br />[ERROR] $url: " .
+        $response->getStatus() . ' ' .
+        $response->getReasonPhrase() . "\n");
       return NULL;
     }
   }
