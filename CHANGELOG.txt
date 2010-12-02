@@ -1,7 +1,6 @@
 
 BUGS AND TODOS
 --------------
-  * @bug We don't currently do any validation/sanitation of incoming data.
   * @todo Write up the theme documentation.
   * @todo Get "variants" in the default themes.
   * @todo Offer option to collapse all singles into a single heading.
@@ -10,20 +9,17 @@ BUGS AND TODOS
   * @todo Add a "group: Batman" key/value to force group issues into headings?
   * @todo Look into supporting issues within a list.
   * @todo Render "Count: 2" underneath the date or etc.
-  * @todo Look into support 19 (2) as a count metric.
   * @todo Add link back to CV list on the default template. And timestamp generated?
   * @todo Include any "volume 2" and "year started" information in volume header?
   * @todo See if we can detect trades and their collected IDs and merge into one.
-  * @todo Argument should be called "urls", but command line needs smarter.
   * @todo Add popup/overlay of cover and deck to any additional themes?
   * @todo Render links should popup a new window to prevent Back button reruns.
   * @todo Theme idea: character tag cloud.
   * @todo Theme idea: Comic Vine list, only with all issues linked (and overlay).
   * @todo Theme idea: Excel-like spreadsheet, sortable, with overlays, etc.
-  * @todo Look into existing render failures and write errors for each of em.
   * @todo If only processing one URL, put collection title into render?
   * @todo Provide an option to alphabetize the volume titles internally.
-  * @todo The provided render needs to be updated to multiple lists.
+  * @todo The shipped render needs to be updated to multiple lists.
   * @todo Comic Vine's API does weird things with 0 issues. See 37-38523.
 
 
@@ -37,7 +33,8 @@ VERSION 1.1, 2010-12-06
   * All HTML pages are now fluid width instead of duping Comic Vine's fixed.
   * Support "17 (4)" and "17(4)" as a way to indicate 4 owned copies of 17.
   * Comment parser is a bit looser in parsing issue numbers from chaos.
-  * Display an error if we can find no issue numbers in your comment.
+  * Display an error if we can't find any issue numbers in your comment.
+  * Display an error if the API has no data for a specified issue number.
   * Bugfix: We now verify that the submitted URL looks like a Comic Vine list.
   * Bugfix: If our collection is empty after parsing, we exit with an error.
   * Bugfix: A range of "24-13" is now internally corrected to "13-24".

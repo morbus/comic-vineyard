@@ -165,6 +165,14 @@ foreach ($collection as $volume_id => $volume) {
       // massage some of the data to get it into a more "print and go" form.
       $collection[$volume_id]['issue numbers'][$issue_number]['data']['issue_number'] = (int) $collection[$volume_id]['issue numbers'][$issue_number]['data']['issue_number'];
     }
+  }
+
+  // see if there are any user-defined issues we couldn't find.
+  foreach ($collection[$volume_id]['issue numbers'] as $issue_number => $issue) {
+    if (!isset($issue['data'])) { // no matching issue number from API's volume call.
+      progress("<br />[ERROR] Comic Vineyard was unable to find data for issue #$issue_number.\n");
+      unset($collection[$volume_id]['issue numbers'][$issue_number]); // no theming of emptiness.
+    }
   } progress("</li>\n");
 } progress("</ul>");
 
