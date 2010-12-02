@@ -14,17 +14,20 @@
 </div>
 
 <div id="wrapper" class="clearfix">
-  <div id="run-comic-vineyard">
+  <div id="run-comic-vineyard" class="clearfix">
     <form action="comic-vineyard.php" method="post">
-      <input id="url" name="url" type="text" size="75" />
-      <button name="render">Render</button>
-    </form>
+      <div id="urls">
+        <textarea name="urls" type="text" size="75"></textarea>
+        <div>Enter Comic Vine list URLs, one per line. Multiple lists will be merged into one Comic Vineyard collection.</div>
+      </div>
 
-    <div class="instructions">Use Comic Vine to index your comic book collection and Comic Vineyard to make it pretty.</div>
-    <p>For an example of the default theme, view <a href="renders/morbus-20545-default.html">Morbus' Comic Vineyard</a> as generated from <a href="http://www.comicvine.com/lists/75-20545/">his Comic Vine list</a>.</p>
+      <button id="render" name="render">Render</button>
+    </form>
   </div>
 
-  <div id="help">
+  <h1 id="summary">Use Comic Vine to index your comic book collection and Comic Vineyard to make it pretty.</h1>
+
+  <div id="readme">
     <p><strong>Comic Vineyard</strong> is a way of tracking your comic book collection using Comic Vine's functionality and data. You maintain your public collection of comics in a Comic Vine "list" and then use Comic Vineyard to take that data and turn it into a display of your choice. Comic Vineyard exists to <strong>address two of the most troubling aspects of tracking your comic book collection:</strong> getting all your data in, and getting better looking data out in a way you'd like.</p>
 
     <h2>How to use Comic Vineyard</h2>
@@ -47,8 +50,14 @@
   </div>
 
   <div id="updates">
+    <h2>Examples</h2>
+    <ul>
+      <li><a href="renders/morbus-20545-default.html">Morbus' Comic Vineyard</a> (default theme, multiple lists).</li>
+    </ul>
+
     <h2>Latest updates</h2>
     <ul>
+      <li><strong>2010-12-06</strong>: Version 1.1 released.</li>
       <li><strong>2010-11-29</strong>: <a href="http://www.comicvine.com/forums/gen-discussion/1/comic-vineyard-v10-manage-your-comic-collection-with-comic-vine/585995/">Version 1.0 released.</a></li>
       <li><strong>2010-11-24</strong>: <a href="http://www.comicvine.com/forums/gen-discussion/1/managing-your-comic-collection-with-comic-vine/585378/">Sneak peak at an alpha.</a></li>
     </ul>

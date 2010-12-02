@@ -89,6 +89,8 @@ To run Comic Vineyard from the command line, use:
     --api_key [your-api-key]
     --url [your-collection-url]
 
+For multiple list URLs, add more "--url [your-collection-url]" pairs.
+
 If you want to run Comic Vineyard through your web site, you'll need to find
 some way to pass your Comic Vine API key to the script in a secure manner. You
 can either manually force the API key in the source file, or you can set it

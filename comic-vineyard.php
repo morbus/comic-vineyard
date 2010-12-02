@@ -18,17 +18,21 @@ set_time_limit(0); // FOREVEVRE!
 /* Step 1: determine where we're being run and how, then setup progress bar.  */
 /* ************************************************************************** */
 // browser-run. be as responsive as possible.
-if (isset($_REQUEST['url'])) {
+if (isset($_REQUEST['urls'])) {
   disable_output_buffering(); // send output to the browser as fast as possible.
+  print progress_surroundings('header'); // footer will show up at script end.
   $api_key  = isset($_REQUEST['api_key']) ? $_REQUEST['api_key'] : $_SERVER['COMIC_VINE_API_KEY'];
-  $list_url = isset($_REQUEST['url']) ? $_REQUEST['url'] : NULL;
-  print progress_surroundings('header'); // footer at script end.
+  if (isset($_REQUEST['urls'])) { // fetch everything sent to us yummy yummy yummy
+    foreach (explode("\n", trim($_REQUEST['urls'])) as $list_url) {
+      $list_urls[] = $list_url; // loop through em later.
+    }
+  }
 }
 else { // treat it like a command-line run.
   while ($param = array_shift($_SERVER['argv'])) {
     switch ($param) {
       case '--api_key': $api_key  = array_shift($_SERVER['argv']); break;
-      case '--url':     $list_url = array_shift($_SERVER['argv']); break;
+      case '--url':     $list_urls[] = array_shift($_SERVER['argv']); break;
     }
   }
 }
@@ -37,17 +41,14 @@ progress("<p>Comic Vineyard is now rendering your comic book collection. Be pati
 $theme_fields = 'issue_number,publish_year,publish_month,publish_day,image,site_detail_url';
 $issue_numbers = cache_load('issue-numbers.db');
 
-// @todo prep for multiURLs.
-$list_urls = array($list_url);
-
 /* ************************************************************************** */
 /* Step 2: get our collection of volumes, and parse the comments for issues.  */
 /* ************************************************************************** */
 progress("<ul>\n"); // make it purdy.
 foreach ($list_urls as $list_url) {
   if (!preg_match('!http://(www.)?comicvine.com/myvine/(.*?)/(.*?)/75-(\d+)!', $list_url)) {
-    print "[ERROR] $list_url is not a list.\n"; // NOT ONE OF US. NOT ONE OF US. NOT ONE OF...
-    continue; // at least, not one we've ever seen ...US. NOT ONE OF US. NOT ONE OF US. NOT...
+    progress("<br />[ERROR] $list_url is not a list.\n"); // NOT ONE OF US. NOT ONE OF US. NOT ONE OF...
+    continue; // at least, not one we've ever seen ...US. NOT ONE OF US. NOT ONE OF US. NOT ONE OF US...
   }
 
   // take off existing ?page params and force a start on page 1.
@@ -120,7 +121,7 @@ foreach ($list_urls as $list_url) {
 } progress("</ul>");
 
 if (!isset($collection)) { // after all these URLs, I got nothing? How depressing.
-  print "[ERROR] Comic Vineyard was unable to find a collection at any the submitted URLs.\n";
+  progress("<br />[ERROR] Comic Vineyard was unable to find a collection at any the submitted URLs.\n");
   exit; // FOR YOU, NOT ME. I AM TEH ALL POWERFUL SCRIPT PUNY HUMAN YOU ARE BAG OF MOSTLY WATER.
 }
 
@@ -165,14 +166,16 @@ if (isset($new_cache_items)) {
 /* Step 4: our collection is full of data so we can print it as we'd like.    */
 /* ************************************************************************** */
 $output   = theme_render($collection);
-$user     = preg_replace('!.*/myvine/(.*?)/.*!', '\1', $list_url);
-$list_id  = preg_replace("!.*/myvine/$user/.*?/75-(\d+).*!", '\1', $list_url);
-$rendered_path = "renders/$user-$list_id-default.html";
+foreach ($list_urls as $list_url) {
+  $user = preg_replace('!.*/myvine/(.*?)/.*!', '\1', $list_url);
+  $render_id += preg_replace("!.*/myvine/$user/.*?/75-(\d+).*!", '\1', $list_url);
+} // if someone renders ten lists at once, add the IDs together to create a uniq.
+$rendered_path = "renders/$user-$render_id-default.html";
 file_put_contents($rendered_path, $output);
 
 progress("\n<p>Your Comic Vineyard is complete!</p>\n");
 progress("  <ul><li><a href=\"$rendered_path\">$rendered_path</a></li></ul>\n");
-
+progress_surroundings('footer');
 
 /* ************************************************************************** */
 /* FUNCTIONES SOMNICULOSUS. NOTHING WICKED THIS WAY COMES WEIRDO ... CALL ME? */
@@ -220,13 +223,13 @@ function http_request($url, $type = 'xml') {
       }
     }
     else {
-      print "[ERROR] $url: " . $response->getStatus()
-        . ' ' . $response->getReasonPhrase() . "\n";
+      progress("<br />[ERROR] $url: " . $response->getStatus()
+        . ' ' . $response->getReasonPhrase() . "\n");
       return NULL;
     }
   }
   catch (HTTP_Request2_Exception $e) {
-    print "[ERROR] $url: " . $e->getMessage() . "\n";
+    progress("<br />[ERROR] $url: " . $e->getMessage() . "\n");
     return NULL;
   }
 }
@@ -315,7 +318,7 @@ function progress_surroundings($type) {
  *   The message you want displayed to the user.
  */
 function progress($message) {
-  print isset($_REQUEST['url']) ? $message : rtrim(strip_tags($message), " ");
+  print isset($_REQUEST['urls']) ? $message : rtrim(strip_tags($message), " ");
 }
 
 /**

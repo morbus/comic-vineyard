@@ -1,10 +1,7 @@
 
 BUGS AND TODOS
 --------------
-  * @bug $list_url/theme render will break when we accept multiple URLs.
-  * @todo Support multiple lists for one giant render.
   * @bug We don't currently do any validation/sanitation of incoming data.
-  * @bug May/Summer types of issue numbers are unsupported.
   * @todo Write up the theme documentation.
   * @todo Get "variants" in the default themes.
   * @todo Offer option to collapse all singles into a single heading.
@@ -23,10 +20,14 @@ BUGS AND TODOS
   * @todo Theme idea: character tag cloud.
   * @todo Theme idea: Comic Vine list, only with all issues linked (and overlay).
   * @todo Theme idea: Excel-like spreadsheet, sortable, with overlays, etc.
+  * @todo Look into existing render failures and write errors for each of em.
+  * @todo If only processing one URL, put collection title into render?
+  * @todo Provide an option to alphabetize the volume titles internally.
 
 
 VERSION 1.1, 2010-12-06
 -----------------------
+  * Multiple list URLs can be passed to create one large/merged collection.
   * If a list has multiple pages, we now grab and render all of 'em.
   * Synchronized the docs between README.txt and index.html.
   * Corrected README.txt documentation for command line usage.
@@ -38,6 +39,8 @@ VERSION 1.1, 2010-12-06
   * Bugfix: Comment keys are always lowercased ("Location" vs "location").
   * Bugfix: Submitted URLs are now trimmed of any whitespace.
   * Bugfix: Fixed bad render filename if ?page=1 was in the URL.
+  * Bugfix: HTML-based error messages will now display on their own lines.
+  * Bugfix: The HTML-based footer of the progress page is now added.
 
 
 VERSION 1.0, 2010-11-29
