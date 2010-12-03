@@ -126,6 +126,7 @@ foreach ($list_urls as $list_url) {
       // if we've found no issues, we should complain a bit.
       if (count($collection[$volume_id]['issue numbers']) == 0) {
         progress("<br />[ERROR] Comic Vineyard doesn't think you specified any issues for " . $collection[$volume_id]['name'] . ".\n");
+        unset($collection[$volume_id]); // remove it from the collection so that it's not themed empty.
       }
     }
   } progress("</li>\n");
@@ -321,7 +322,6 @@ function progress_surroundings($type) {
   $header .=   '<div id="header-explanation"><a href="http://www.disobey.com/d/code/comic-vineyard/">Comic Vineyard</a> allows you to track your comic book collection using <a href="http://www.comicvine.com/">Comic Vine</a>. <div style="float: right;">Comic Vineyard was created by <a href="http://www.comicvine.com/myvine/morbus/">Morbus Iff</a>.</div></div>';
   $header .= '</div>';
   $header .= '<div id="wrapper" class="clearfix progress">';
-
   $footer =  '</div>';
   $footer .= '</body>';
   $footer .= '</html>';
