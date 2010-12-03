@@ -23,7 +23,7 @@ BUGS AND TODOS
   * @todo Comic Vine's API does weird things with 0 issues. See 37-38523.
 
 
-VERSION 1.1, 2010-12-06
+VERSION 1.1, 2010-12-03
 -----------------------
   * Multiple list URLs can be passed to create one large/merged collection.
   * If a list has multiple pages, we now grab and render all of 'em.
