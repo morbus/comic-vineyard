@@ -21,6 +21,7 @@ BUGS AND TODOS
   * @todo Provide an option to alphabetize the volume titles internally.
   * @todo The shipped render needs to be updated to multiple lists.
   * @todo Comic Vine's API does weird things with 0 issues. See 37-38523.
+  * @todo Can we auto scroll the HTML progress window?
 
 
 VERSION 1.1, 2010-12-03
